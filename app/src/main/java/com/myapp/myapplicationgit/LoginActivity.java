@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setUpViewPagerAdapter(){
         loginAdapter.addFragment(new Login_Tap_Fragment(), "Iniciar Sesion");
-        loginAdapter.addFragment(new SingUp_Tap_Fragment(), "Registrarte");
+        loginAdapter.addFragment(new SingUp_Tap_Fragment(), "Registrate");
         viewPager.setAdapter(loginAdapter);
 
         tabLayout.setupWithViewPager(viewPager);
