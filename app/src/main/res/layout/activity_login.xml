@@ -29,6 +29,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tap_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            android:background="@drawable/view_bg"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
@@ -41,16 +51,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tap_layout"
             app:layout_constraintVertical_bias="0" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tap_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            android:background="@drawable/view_bg"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

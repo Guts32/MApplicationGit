@@ -11,22 +11,44 @@ public class LoginActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
+    LoginAdapter loginAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        setUpView();
+        setUpViewPagerAdapter();
+    }
+
+    private void setUpView(){
         tabLayout = findViewById(R.id.tap_layout);
         viewPager = findViewById(R.id.view_pager);
+        loginAdapter = new LoginAdapter(getSupportFragmentManager());
+    }
 
-        tabLayout.addTab(tabLayout.newTab().setText("Iniciar Sesion"));
-        tabLayout.addTab(tabLayout.newTab().setText("Registrarse"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+    private void setUpViewPagerAdapter(){
+        loginAdapter.addFragment(new Login_Tap_Fragment(), "Iniciar Sesion");
+        loginAdapter.addFragment(new SingUp_Tap_Fragment(), "Registrarte");
+        viewPager.setAdapter(loginAdapter);
 
-        final LoginAdapter adapter = new LoginAdapter(getSupportFragmentManager(),this,tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 }

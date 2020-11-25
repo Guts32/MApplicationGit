@@ -2,38 +2,44 @@ package com.myapp.myapplicationgit;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import java.security.spec.PSSParameterSpec;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginAdapter extends FragmentPagerAdapter {
+    private List<Fragment> fragments = new ArrayList<>();
+    private List<String> fragmentsTitles = new ArrayList<>();
 
-    private Context context;
-    int totalTabs;
-
-    public LoginAdapter(FragmentManager fm, Context context, int totalTabs){
-        super(fm);
-        this.context = context;
-        this.totalTabs = totalTabs;
+    public LoginAdapter(FragmentManager fragmentManager){
+        super(fragmentManager);
     }
 
-    public Fragment getItem(int Position){
-        switch (Position){
-            case 0:
-                Login_Tap_Fragment login_tap_fragment = new Login_Tap_Fragment();
-                return login_tap_fragment;
-            case 1:
-                SingUp_Tap_Fragment singUp_tap_fragment = new SingUp_Tap_Fragment();
-                return singUp_tap_fragment;
-            default:
-                return null;
-        }
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return totalTabs;
+        return fragments.size();
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return fragmentsTitles.get(position);
+    }
+
+    public  void addFragment(Fragment fragment, String title){
+        fragments.add(fragment);
+        fragmentsTitles.add(title);
     }
 }
