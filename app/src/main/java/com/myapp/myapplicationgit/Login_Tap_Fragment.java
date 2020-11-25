@@ -37,24 +37,19 @@ public class Login_Tap_Fragment extends Fragment{
     private EditText mEmail,mPassword;
     Button login;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public Login_Tap_Fragment() {
         // Required empty public constructor
     }
 
 
 
-    private void attachToXML(){
+    private void iniciar(){
         try {
 
             mAuth = FirebaseAuth.getInstance();
             mEmail = v.findViewById(R.id.email);
             mPassword = v.findViewById(R.id.password);
             login = v.findViewById(R.id.login);
-
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,7 +63,7 @@ public class Login_Tap_Fragment extends Fragment{
     }
 
     private void Login_User(){
-        if(!mEmail.getText().toString().isEmpty() && mPassword.getText().toString().isEmpty()){
+        if(!mEmail.getText().toString().isEmpty() && !mPassword.getText().toString().isEmpty()){
 
             if (mAuth != null)
             {
@@ -87,7 +82,8 @@ public class Login_Tap_Fragment extends Fragment{
                 });
             }
         }
-        else{
+
+        else {
             Toast.makeText(getContext(), "Complete los campos", Toast.LENGTH_SHORT).show();
         }
     }
@@ -102,6 +98,7 @@ public class Login_Tap_Fragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_login__tap_, container, false);
+        iniciar();
         return v;
 
     }
