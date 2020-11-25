@@ -22,7 +22,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/editex_bg"/>
+        android:background="@drawable/editex_bg"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/password"
@@ -40,9 +41,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email"
         app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/editex_bg"/>
+        android:background="@drawable/editex_bg"
+        android:inputType="textPassword"/>
 
     <Button
+        android:id="@+id/login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.8"
