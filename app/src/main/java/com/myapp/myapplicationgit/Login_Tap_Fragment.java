@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,18 +37,29 @@ public class Login_Tap_Fragment extends Fragment{
     private FirebaseAuth mAuth;
     private EditText mEmail,mPassword;
     Button login;
+    ProgressBar progressBar;
 
     public Login_Tap_Fragment() {
         // Required empty public constructor
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser !=null){
+            startActivity(new Intent(getActivity().getApplicationContext(), NavigationActivity.class) );
+            getActivity().finish();
+        }
+    }
 
     private void iniciar(){
         try {
 
             mAuth = FirebaseAuth.getInstance();
             mEmail = v.findViewById(R.id.email);
+            progressBar = v.findViewById(R.id.loading);
             mPassword = v.findViewById(R.id.password);
             login = v.findViewById(R.id.login);
             login.setOnClickListener(new View.OnClickListener() {
@@ -63,30 +75,29 @@ public class Login_Tap_Fragment extends Fragment{
     }
 
     private void Login_User(){
-        if(!mEmail.getText().toString().isEmpty() && !mPassword.getText().toString().isEmpty()){
-
+        if (!validateForm()) {
+            return;
+        }
+            progressBar.setVisibility(View.VISIBLE);
             if (mAuth != null)
             {
                 mAuth.signInWithEmailAndPassword(mEmail.getText().toString(),mPassword.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class) );
+                                if (task.isSuccessful()){
+                                startActivity(new Intent(getActivity().getApplicationContext(), NavigationActivity.class) );
                                 getActivity().finish();
+                                }
+                                else {
+                                    Toast.makeText(getContext(), "Autenticacion Fallida", Toast.LENGTH_SHORT).show();
+                                }
+                             progressBar.setVisibility(View.GONE);
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
                 });
             }
-        }
-
-        else {
-            Toast.makeText(getContext(), "Complete los campos", Toast.LENGTH_SHORT).show();
-        }
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +114,26 @@ public class Login_Tap_Fragment extends Fragment{
 
     }
 
+    private boolean validateForm() {
+        boolean valid = true;
 
+        String email = mEmail.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            mEmail.setError("Requerido.");
+            valid = false;
+        } else {
+            mEmail.setError(null);
+        }
+
+        String password = mPassword.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            mPassword.setError("Requerido.");
+            valid = false;
+        } else {
+            mPassword.setError(null);
+        }
+
+        return valid;
+    }
 
 }

@@ -16,7 +16,7 @@ public class SingUp_Tap_Fragment extends Fragment {
     }
 
 
-    
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
