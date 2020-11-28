@@ -25,7 +25,7 @@
             android:background="@drawable/fondo"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_view"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -53,5 +53,9 @@
         </LinearLayout>
     </RelativeLayout>
 
-
+<Button
+    android:id="@+id/image_subir"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Actualizar datos"/>
 </LinearLayout>

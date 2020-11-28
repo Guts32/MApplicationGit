@@ -89,7 +89,7 @@ public class NavigationActivity extends AppCompatActivity{
                             finish();
                             return true;
                         }
-                    case R.id.nav_home:
+                    case R.id.nav_profile:
                         startActivity(new Intent(NavigationActivity.this, MainActivity.class));
 
                 }
