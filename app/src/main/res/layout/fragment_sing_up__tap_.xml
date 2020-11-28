@@ -7,8 +7,23 @@
     tools:context=".SingUp_Tap_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ProgressBar
+        android:id="@+id/loading2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="0"/>
+
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/Nname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.8"
@@ -22,9 +37,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/editex_bg"/>
+        android:background="@drawable/editex_bg"
+        android:inputType="textPersonName"/>
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/Nemail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -37,12 +53,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/Nname"
         app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/editex_bg"/>
+        android:background="@drawable/editex_bg"
+        android:inputType="textEmailAddress"/>
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/Npassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Password"
@@ -55,40 +72,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/Nemail"
         app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/editex_bg"/>
+        android:background="@drawable/editex_bg"
+        android:inputType="textPassword"/>
 
-    <EditText
-        android:id="@+id/confirm_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Confirmar Password"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/editex_bg"/>
 
     <Button
+        android:id="@+id/btn_Create"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/buttom_bg"
         android:text="Crear Cuenta"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_password"
+        app:layout_constraintTop_toBottomOf="@+id/Npassword"
         app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/buttom_bg"/>
+        app:layout_constraintWidth_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

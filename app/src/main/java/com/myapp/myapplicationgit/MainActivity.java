@@ -1,37 +1,142 @@
 package com.myapp.myapplicationgit;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Notification;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.OnPageChange;
+import id.zelory.compressor.Compressor;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
 
 public class MainActivity extends AppCompatActivity {
+    final private int REQUEST_CODE_ASK_PERMISON = 111;
 
+    private Button mButtonUpload;
+    private TextView User;
+    private EditText mEditextFileName;
+    private ImageView mImageView, mButtonChooseImage;
+    private ProgressBar mProgresBar;
+    private static final int PICK_IMAGE = 100;
+    Uri imageUri;
     FirebaseAuth mAuth;
-    Button button;
+    DatabaseReference myRef;
+    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.Salir);
+        mButtonChooseImage = findViewById(R.id.Buscar);
+        User = findViewById(R.id.P_user_name);
+        mImageView = findViewById(R.id.image_view);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        String id = mAuth.getCurrentUser().getUid();
+
+        myRef = database.getReference("User").child(id);
+
+        mProgresBar = findViewById(R.id.progress_bar);
+
+
+        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mAuth != null){
-                    mAuth.signOut();
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    finish();
-                }
+                solicitarpermisos();
+                openGallery();
             }
         });
+
+    }
+
+
+    private void solicitarpermisos(){
+        int permisoStorage = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permisoStorage != PackageManager.PERMISSION_GRANTED){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISON);
+            }
+        }
+    }
+
+    private void openGallery(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            imageUri = data.getData();
+            mImageView.setImageURI(imageUri);
+
+            mButtonUpload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mProgresBar.setVisibility(View.VISIBLE);
+                    Uri FileUri = data.getData();
+
+                    StorageReference Folder = FirebaseStorage.getInstance().getReference().child("User");
+
+                    final StorageReference file_name = Folder.child("f" +
+                            "ile"+FileUri.getLastPathSegment());
+
+
+                    file_name.putFile(FileUri).addOnSuccessListener(taskSnapshot -> file_name.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                        Map<String,Object> hashMap = new HashMap<>();
+                        hashMap.put("foto", String.valueOf(uri));
+                        myRef.updateChildren(hashMap);
+                        Toast.makeText(MainActivity.this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show();
+                        mProgresBar.setVisibility(View.GONE);
+                    }));
+                }
+            });
+        }
+        else{
+            Toast.makeText(MainActivity.this, "No se seleciono Imagen", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

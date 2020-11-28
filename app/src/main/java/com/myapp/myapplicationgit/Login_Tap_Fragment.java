@@ -38,7 +38,6 @@ public class Login_Tap_Fragment extends Fragment{
     private EditText mEmail,mPassword;
     Button login;
     ProgressBar progressBar;
-
     public Login_Tap_Fragment() {
         // Required empty public constructor
     }
