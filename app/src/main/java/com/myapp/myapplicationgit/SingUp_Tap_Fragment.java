@@ -65,7 +65,7 @@ public class SingUp_Tap_Fragment extends Fragment {
                         map.put("Username", name);
                         map.put("email", email);
                         map.put("password", password);
-                        map.put("foto", null);
+                        map.put("foto", "https://img2.freepng.es/20180401/dbq/kisspng-user-profile-computer-icons-profile-5ac09245049c32.0935523415225697970189.jpg");
 
                         String id = mAuth.getCurrentUser().getUid();
 

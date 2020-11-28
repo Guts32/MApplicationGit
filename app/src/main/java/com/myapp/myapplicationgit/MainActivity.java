@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         mProgresBar.setVisibility(View.VISIBLE);
                        // Uri FileUri = data.getData();
-
-                        StorageReference Folder = FirebaseStorage.getInstance().getReference().child("User");
+                        String id = mAuth.getCurrentUser().getUid();
+                        StorageReference Folder = FirebaseStorage.getInstance().getReference().child("User").child(id);
 
                         final StorageReference file_name = Folder.child("f" +
                                 "ile"+resultUri.getLastPathSegment());
